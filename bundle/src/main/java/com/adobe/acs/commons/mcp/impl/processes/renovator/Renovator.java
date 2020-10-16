@@ -526,16 +526,16 @@ public class Renovator extends ProcessDefinition {
     protected void moveTree(ActionManager manager) {
         manager.deferredWithResolver(rr -> {
             moves.forEach(node -> {
-                    node.visit(childNode -> {
-                        if (!childNode.isCopiedBeforeMove() || !resourceExists(rr, childNode.getDestinationPath())) {
-                                Actions.setCurrentItem("Moving " + childNode.getSourcePath());
-									try {
-										childNode.move(replicatorQueue, rr);
-									} catch (IllegalAccessException | MovingException e) {
-										 LOG.error("Fatal uncaught error in moveTree {}", e);
-									}
+                node.visit(childNode -> {
+                    if (!childNode.isCopiedBeforeMove() || !resourceExists(rr, childNode.getDestinationPath())) {
+                        Actions.setCurrentItem("Moving " + childNode.getSourcePath());
+                        try {
+                            childNode.move(replicatorQueue, rr);
+                        } catch (IllegalAccessException | MovingException e) {
+                            LOG.error("Fatal uncaught error in moveTree {}", e);
                         }
-                    });
+                    }
+                });
             });
         });
     }
